@@ -33,7 +33,7 @@ texts=['如果 也 没有 的话 。 这个 确实 没有 办法 了 。 我 个
 '安装 有 什么 报错 么']
 
 
-corpus=[{'id': 'doc_%i' % num, 'tokens': text.split()}
+corpus=[{'id': 'train_%i' % num, 'tokens': text.split()}
          for num, text in enumerate(texts)]
 
 
@@ -42,9 +42,29 @@ server.train(corpus, method='lsi')
 
 
 #let just index the corpus
-server.index(corpus)
 
-#and find_similar for each documents, which should return itselft.
+texts=['如果 也 没有 的话 。 这个 确实 没有 办法 了 。 我 个人 建议您 重装 一遍 这个 软件 看看 是否 还是 一样 卸载 程序 里 也 没有 呢',
+'我能 直接 删掉 这些 文件 吗 ？',
+'不 建议 呢 。 因为 不 确定 这些 文件 中 是否 有 其他软件 的 文件 呢',
+'好 的 ， 使用 看看 会断 么',
+'它 只是 有时 自动 掉 ， 以后 看看 怎么样',
+'这个 是 您 无线 驱动 ： http : / / driverdl . lenovo . com . cn / lenovo / driverfilesuploadfloder / 32228 / wlan _ win8 . 1 . exe',
+'要是 问题 还是 出现 您 可以 安装 这个 试试',
+'10 几个 版本 都 试过 了 么']
+
+corpus=[{'id': 'doc_%i' % num, 'tokens': text.split()} for num, text in enumerate(texts)]
+server.index(corpus)
+server.delete(['doc_5'])   # try to del one doc
+server.commit()
+
+texts=['如果 也 没有 的话 。 这个 确实 没有 办法 了 。 我 个人 建议您 重装 一遍 这个 软件 看看 是否 还是 一样 卸载 程序 里 也 没有 呢',
+'我能 直接 删掉 这些 文件 吗 ？',
+'不 建议 呢 。 因为 不 确定 这些 文件 中 是否 有 其他软件 的 文件 呢',
+'好 的 ， 使用 看看 会断 么']
+
+corpus=[{'id': 'eval_%i' % num, 'tokens': text.split()} for num, text in enumerate(texts)]
+
+#and find_similar for each documents, which should return doc_0, doc_1 doc_2.
 
 for s in corpus:
     print server.find_similar(s)
