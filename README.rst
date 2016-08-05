@@ -1,6 +1,6 @@
 Changes
 ------------
-This project forked from https://github.com/RaRe-Technologies/gensim-simserver and following changes has been made to make it workable with latest Gensim:
+This project is forked from https://github.com/RaRe-Technologies/gensim-simserver and following changes have been made to make it workable with latest Gensim:
 
 @line 238 of simserver/simserver.py
 
