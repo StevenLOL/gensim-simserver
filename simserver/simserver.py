@@ -246,7 +246,7 @@ class SimIndex(gensim.utils.SaveLoad):
     def merge(self, other):
         """Merge documents from the other index. Update precomputed similarities
         in the process."""
-        other.qindex.normalize, other.qindex.num_best = False, self.topsims
+        other.qindex.norm, other.qindex.num_best = False, self.topsims
         # update precomputed "most similar" for old documents (in case some of
         # the new docs make it to the top-N for some of the old documents)
         logger.info("updating old precomputed values")
@@ -276,7 +276,7 @@ class SimIndex(gensim.utils.SaveLoad):
 
         logger.info("precomputing most similar for the fresh index")
         pos, lenother = 0, len(other.qindex)
-        norm, self.qindex.normalize = self.qindex.normalize, False
+        norm, self.qindex.norm = self.qindex.norm, False
         topsims, self.qindex.num_best = self.qindex.num_best, self.topsims
         for chunk in other.qindex.iter_chunks():
             for sims in self.qindex[chunk]:
@@ -287,7 +287,7 @@ class SimIndex(gensim.utils.SaveLoad):
                 pos += 1
                 if pos % 10000 == 0:
                     logger.info("PROGRESS: precomputed doc #%i/%i" % (pos, lenother))
-        self.qindex.normalize, self.qindex.num_best = norm, topsims
+        self.qindex.norm, self.qindex.num_best = norm, topsims
         self.id2sims.sync()
 
 
