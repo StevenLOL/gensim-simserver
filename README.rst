@@ -1,3 +1,23 @@
+Changes
+------------
+This project is forked from https://github.com/RaRe-Technologies/gensim-simserver and following changes have been made to make it workable with latest Gensim:
+
+@line 238 of simserver/simserver.py
+
+    def sims_by_vec(self, vec, normalize=None):
+        """
+        Find the most similar documents to a given vector (=already processed document).
+        """
+        if normalize is None:
+            normalize = self.qindex.norm
+        norm, self.qindex.norm = self.qindex.norm, normalize # store old value
+        self.qindex.num_best = self.topsims
+        sims = self.qindex[vec]
+        self.qindex.norm = norm # restore old value of qindex.normalize
+        return self.sims2scores(sims)
+
+
+
 ==================================================
 simserver -- document similarity server in Python
 ==================================================
